@@ -14,6 +14,40 @@ uppyOne.on('complete', (result) => {
   console.log(result);
 });
 
+// type uppy_preview_t = {
+//   file: {
+//     data: { /* File */
+//       lastModified: float,
+//       lastModifiedDate: Js.Date.t,
+//       name: string,
+//       size: float,
+//       type: string,
+//       webkitRelativePath: string,
+//     },
+//     extension: string,
+//     id: string,
+//     isRemote: bool,
+//     meta: {
+//       name: string,
+//       type: string,
+//     },
+//     name: string,
+//     preview: undefined,
+//     progress: {
+//       bytesTotal: float,
+//       bytesUploaded: float,
+//       percentage: int,
+//       uploadComplete: bool,
+//       uploadStarted: bool,
+//     },
+//     remote: string,
+//     size: float,
+//     source: string,
+//     type: string,
+//   },
+//   base64: string,
+// };
+
 class App extends Component {
   constructor(props) {
     super(props);
