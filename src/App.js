@@ -8,6 +8,7 @@ const ProgressBar = require('@uppy/progress-bar');
 // const Tus = require('@uppy/tus');
 
 const uppyOne = new Uppy({ debug: true, autoProceed: false });
+const reader = new FileReader();
 
 uppyOne.on('complete', (result) => {
   console.log(result);
@@ -32,10 +33,7 @@ class App extends Component {
 
     uppyOne.on('file-added', (file) => {
       console.log('Added file', file);
-      const reader = new FileReader();
-      reader.onload = function (readerEvt) {
-        addFileToState({ file, base64: readerEvt.target.result });
-      };
+      reader.onload = (readerEvt) => addFileToState({ file, base64: readerEvt.target.result });
       reader.readAsDataURL(file.data);
     });
 
