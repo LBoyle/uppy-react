@@ -7,10 +7,6 @@ const DragDrop = require('@uppy/drag-drop');
 const ProgressBar = require('@uppy/progress-bar');
 // const Tus = require('@uppy/tus');
 
-
-
-
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -18,17 +14,14 @@ class App extends Component {
       uppyPreviews: []
     };
 
-    this.uploadFile = this.uploadFile.bind(this);
-    this.addFileToState = this.addFileToState.bind(this);
-
     this.uppyOne = new Uppy({ debug: true, autoProceed: false });
     this.reader = new FileReader();
+
+    this.uploadFile = this.uploadFile.bind(this);
+    this.addFileToState = this.addFileToState.bind(this);
   }
 
   componentDidMount() {
-    const addFileToState = this.addFileToState;
-    const reader = this.reader;
-
     this.uppyOne
       .use(DragDrop, { target: '#UppyOne' })
       // .use(Tus, { endpoint: '//master.tus.io/files/' })
@@ -40,9 +33,13 @@ class App extends Component {
 
     this.uppyOne.on('file-added', (file) => {
       console.log('Added file', file);
-      reader.onload = (readerEvt) => addFileToState({ file, base64: readerEvt.target.result });
-      reader.readAsDataURL(file.data);
+
+      this.reader.onload = (readerEvt) =>
+        this.addFileToState({ file, base64: readerEvt.target.result });
+      // Define this onload every time to get file and base64 every time
+      this.reader.readAsDataURL(file.data);
     });
+    // couldn't figure a better solution on the spot
   }
 
   addFileToState({ file, base64 }) {
@@ -51,6 +48,7 @@ class App extends Component {
 
   uploadFile() {
     console.log(this.state.uppyPreviews);
+    // this.uppyOne.upload();
   }
 
   render() {
@@ -91,36 +89,38 @@ class App extends Component {
 
 export default App;
 
-// type uppy_preview_t = {
-//   file: {
-//     data: { /* File */
-//       lastModified: float,
-//       lastModifiedDate: Js.Date.t,
-//       name: string,
-//       size: float,
-//       type: string,
-//       webkitRelativePath: string,
-//     },
-//     extension: string,
-//     id: string,
-//     isRemote: bool,
-//     meta: {
-//       name: string,
-//       type: string,
-//     },
+// type uppy_file_t = {
+//   data: { /* File */
+//     lastModified: float,
+//     lastModifiedDate: Js.Date.t,
 //     name: string,
-//     preview: undefined,
-//     progress: {
-//       bytesTotal: float,
-//       bytesUploaded: float,
-//       percentage: int,
-//       uploadComplete: bool,
-//       uploadStarted: bool,
-//     },
-//     remote: string,
 //     size: float,
-//     source: string,
+//     type: string,
+//     webkitRelativePath: string,
+//   },
+//   extension: string,
+//   id: string,
+//   isRemote: bool,
+//   meta: {
+//     name: string,
 //     type: string,
 //   },
+//   name: string,
+//   preview: undefined,
+//   progress: {
+//     bytesTotal: float,
+//     bytesUploaded: float,
+//     percentage: int,
+//     uploadComplete: bool,
+//     uploadStarted: bool,
+//   },
+//   remote: string,
+//   size: float,
+//   source: string,
+//   type: string,
+// };
+
+// type uppy_preview_t = {
+//   file: uppy_file_t,
 //   base64: string,
 // };
