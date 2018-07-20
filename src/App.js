@@ -5,7 +5,7 @@ import './App.css';
 const Uppy = require('@uppy/core');
 const DragDrop = require('@uppy/drag-drop');
 const ProgressBar = require('@uppy/progress-bar');
-const Tus = require('@uppy/tus');
+// const Tus = require('@uppy/tus');
 
 const uppyOne = new Uppy({ debug: true, autoProceed: false });
 
@@ -34,15 +34,14 @@ class App extends Component {
       console.log('Added file', file);
       const reader = new FileReader();
       reader.onload = function (readerEvt) {
-        var binaryString = readerEvt.target.result;
-        addFileToState({ file: file, base64: binaryString });
+        addFileToState({ file, base64: readerEvt.target.result });
       };
       reader.readAsDataURL(file.data);
     });
 
   }
   addFileToState({ file, base64 }) {
-    this.setState({ uppyPreviews: [{ file: file, base64: base64 }, ...this.state.uppyPreviews] });
+    this.setState({ uppyPreviews: [{ file, base64 }, ...this.state.uppyPreviews] });
   }
   uploadFile() {
     console.log(this.state.uppyPreviews);
