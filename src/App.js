@@ -13,8 +13,6 @@ uppyOne.on('complete', (result) => {
   console.log(result);
 });
 
-
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +27,7 @@ class App extends Component {
 
     uppyOne
       .use(DragDrop, { target: '#UppyOne' })
-      .use(Tus, { endpoint: '//master.tus.io/files/' })
+      // .use(Tus, { endpoint: '//master.tus.io/files/' })
       .use(ProgressBar, { target: '#UppyOne-Progress', hideAfterFinish: false });
 
     uppyOne.on('file-added', (file) => {
@@ -37,12 +35,7 @@ class App extends Component {
       const reader = new FileReader();
       reader.onload = function (readerEvt) {
         var binaryString = readerEvt.target.result;
-        addFileToState(
-          {
-            file: file,
-            base64: binaryString
-          }
-        );
+        addFileToState({ file: file, base64: binaryString });
       };
       reader.readAsDataURL(file.data);
     });
@@ -77,7 +70,9 @@ class App extends Component {
                     width="200px"
                     height="auto"
                     data={item.base64}
-                  >{item.file.name}</object>
+                  >
+                    {item.file.name}
+                  </object>
                 );
               }
             )
